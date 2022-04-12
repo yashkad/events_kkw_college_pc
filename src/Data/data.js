@@ -1,3 +1,5 @@
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
+
 const instEventList = [
   "Anniversary Program",
   "Expert lecture",
@@ -38,4 +40,32 @@ const deptEventList = {
   technical,
   nonTechnical,
 };
-export { instEventList, deptEventList };
+// const formsList = [
+//   "Invite",
+//   "Gratitude",
+//   "Permission for seminar hall",
+//   "Pre-sanction of remuneration for expert lecture",
+//   "Detail of expert talk",
+//   "Expert talk of feedback of resourse person",
+//   "Expert talk of feedback form"
+//   ,"Expert talk Attendance"
+//   ,"Permission for accomodation and food arrangement for guest"
+// ]
+const formsList = [
+  {
+    name: "Invite",
+    url: "https://forms.gle/wqZnvsMM4AMzJt196"
+  },
+  {
+    name: "Gratitude",
+    url: "https://forms.gle/EiA6ubdeKQvGBedMA"
+  },
+  { name: "Permission for seminar hall", url: "https://forms.gle/7vuZJiTASc1WgZzZ6" },
+  { name: "Pre-sanction of remuneration  for expert lecture", url: "https://forms.gle/GxAVMxNs9ZS2dyJ89" },
+  { name: "Detail of expert talk", url: "https://forms.gle/JhgTNETf9SPcvX198" },
+  { name: "Expert talk of feedback of resourse person", url: "https://forms.gle/86PXkGHwB68qey6XA" },
+  { name: "Expert talk of feedback form", url: "https://forms.gle/G1YSDKSHDta8dfUW7" }
+  , { name: "Expert talk Attendance", url: "https://forms.gle/EBjuLkb1FmkAvd9S6" }
+  , { name: "Permission for accomodation and food arrangement for guest", url: "https://forms.gle/HEbJarkbHpykkYeb7" }
+]
+export { instEventList, deptEventList, formsList };

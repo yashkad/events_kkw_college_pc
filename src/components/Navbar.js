@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import loginService from "../service/login.service";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
+import Dropdown from "./miniComponents/Dropdown";
 
 const Navbar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -73,12 +74,14 @@ const Navbar = () => {
             <NavLink to="/" replace className="navbar-item">
               Home
             </NavLink>
+ 
 
             {isLogin && (
               <>
                 <NavLink to="/about" className="navbar-item">
                   Form
                 </NavLink>
+               <Dropdown className="navbar-item"/>
 
                 {/* <NavLink to="/invite" className="navbar-item">
                   Invite
@@ -86,8 +89,11 @@ const Navbar = () => {
                 <a className="navbar-item " href={inviteFormLink} target="_blank">
                   {"Invite"}
                 </a>
+                
               </>
             )}
+
+
 
 
 
