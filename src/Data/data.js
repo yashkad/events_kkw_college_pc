@@ -68,4 +68,29 @@ const formsList = [
   , { name: "Expert talk Attendance", url: "https://forms.gle/EBjuLkb1FmkAvd9S6" }
   , { name: "Permission for accomodation and food arrangement for guest", url: "https://forms.gle/HEbJarkbHpykkYeb7" }
 ]
-export { instEventList, deptEventList, formsList };
+
+const reportList = [
+  {
+    name: "Invite",
+    uri:""
+  },
+  {
+    name: "Gratitude",
+    uri:""
+  },
+  { name: "Permission for seminar hall", uri:""
+},
+  { name: "Pre-sanction of remuneration  for expert lecture", uri:""
+},
+  { name: "Detail of expert talk", uri:""
+},
+  { name: "Expert talk of feedback of resourse person", uri:""
+ },
+  { name: "Expert talk of feedback form", uri:""
+ }
+  , { name: "Expert talk Attendance", uri:""
+ }
+  , { name: "Permission for accomodation and food arrangement for guest", uri:""
+}
+]
+export { instEventList, deptEventList, formsList,reportList };

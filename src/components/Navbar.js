@@ -4,6 +4,9 @@ import loginService from "../service/login.service";
 import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "./miniComponents/Dropdown";
+import Dropdown1 from "./miniComponents/Dropdown1";
+
+import { formsList, reportList } from '../Data/data';
 
 const Navbar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -31,7 +34,7 @@ const Navbar = () => {
     // console.log("List : ", list);
   };
 
-  const onLogout = ()=>{
+  const onLogout = () => {
     setIsLogin(false);
     navigate('/')
   }
@@ -74,22 +77,34 @@ const Navbar = () => {
             <NavLink to="/" replace className="navbar-item">
               Home
             </NavLink>
- 
+
 
             {isLogin && (
               <>
                 <NavLink to="/about" className="navbar-item">
                   Form
                 </NavLink>
-               <Dropdown className="navbar-item"/>
+                <NavLink to="#" className="navbar-item" style={{
+                  padding: "0px",
+                  paddingLeft: ".75rem"
+                }}>
+                  <Dropdown1 data={formsList} />
+                </NavLink>
+                <NavLink to="#" className="navbar-item" style={{
+                  padding: "0px",
+                  paddingLeft: ".75rem"
+                }}>
+
+                  <Dropdown1 data={reportList} title="Get Report"/>
+                </NavLink>
 
                 {/* <NavLink to="/invite" className="navbar-item">
                   Invite
                 </NavLink> */}
-                <a className="navbar-item " href={inviteFormLink} target="_blank">
+                {/* <a className="navbar-item " href={inviteFormLink} target="_blank">
                   {"Invite"}
-                </a>
-                
+                </a> */}
+
               </>
             )}
 

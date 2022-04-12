@@ -38,7 +38,7 @@ function App() {
           <Route path="/eventDetails/:eventId" element={<EventDetails />} />
           <Route path="/404" element={<UnderConstruction />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </EventContext.Provider>
 
