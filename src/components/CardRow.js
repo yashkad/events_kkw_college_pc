@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import eventsService from "../service/events.service";
 import Card from "./Card";
 import Filter from "./Filter/Filter";
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const CardRow = () => {
   const [list, setList] = useState([]);
@@ -41,11 +44,23 @@ const CardRow = () => {
     }
   }
 
-
+  const notify = () => toast("Wow so easy !");
   return (
     <div className="m-1 box">
-        <Filter department={selectedDepartment} setDepartment={setSelectedDepartment} />
-        
+      <Filter department={selectedDepartment} setDepartment={setSelectedDepartment} />
+      <button onClick={notify}>Notify !</button>
+      
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* <div className="is-flex-direction-row is-flex is-justify-content-space-between px-5">
         <h1 className="is-size-2 is-text has-text-left">MCA</h1>
         <h1 className="button  has-text-right">see more</h1>
@@ -79,7 +94,7 @@ const CardRow = () => {
             15%
           </progress>
         )}
-        {filterList.map((item, id) => {
+        {filterList.length ? (filterList.map((item, id) => {
           return (
             <div
               key={id + ""}
@@ -89,7 +104,7 @@ const CardRow = () => {
               <Card item={item} />
             </div>
           );
-        })}
+        })) : <h1 className="title is-4">No Data Found</h1>}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import Dropdown1 from '../miniComponents/Dropdown1';
 
 function Filter({department,setDepartment}) {
     
-    const arr = ["MCA", "MBA", "IT", "CS", "ENTC","ALL"];
+    const arr = ["ALL","MCA", "MBA", "IT", "CS", "ENTC"];
     // const [department,setDepartment] = useState("MCA")
   return (
     <div className="control m-4">

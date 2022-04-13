@@ -72,25 +72,25 @@ const formsList = [
 const reportList = [
   {
     name: "Invite",
-    uri:""
+    url:"https://docs.google.com/spreadsheets/d/1CXhhLLUskbC6gfHB9UAOUcT7gR_FbTlKRaK8XEUzl7U/edit?usp=sharing"
   },
   {
     name: "Gratitude",
-    uri:""
+    url:"https://docs.google.com/spreadsheets/d/1sYTLA-7BVT0isY19KyXlTO4z_Rlr1cZWH1Qd52LGmVQ/edit?usp=sharing"
   },
-  { name: "Permission for seminar hall", uri:""
+  { name: "Permission for seminar hall", url:"https://docs.google.com/spreadsheets/d/1Tb_vNiJKuZFRp1Z7B-khF36siNLNR2H1fvhoVS7wuzs/edit?usp=sharing"
 },
-  { name: "Pre-sanction of remuneration  for expert lecture", uri:""
+  { name: "Pre-sanction of remuneration  for expert lecture", url:"https://docs.google.com/spreadsheets/d/1Ylf_j4imr8-IQasNcWgo4irHsCp2ui65ob38E1VSWMo/edit?usp=sharing"
 },
-  { name: "Detail of expert talk", uri:""
+  { name: "Detail of expert talk", url:"https://docs.google.com/spreadsheets/d/1i0CchRr7_jaydNQA8Afp_8MrHHZOAFcBb1a4zsfIu9g/edit?usp=sharing"
 },
-  { name: "Expert talk of feedback of resourse person", uri:""
+  { name: "Expert talk of feedback of resourse person", url:"https://docs.google.com/spreadsheets/d/125cEbJD2N3bkZiXpZMMvspRukS6ezLLqoQdNwRgK4C0/edit?usp=sharing"
  },
-  { name: "Expert talk of feedback form", uri:""
+  { name: "Expert talk of feedback form", url:"https://docs.google.com/spreadsheets/d/1-jluDiP26z_fqxDsRRppdclyoKLlkUn2-zL1jaWP2i0/edit?usp=sharing"
  }
-  , { name: "Expert talk Attendance", uri:""
+  , { name: "Expert talk Attendance", url:"https://docs.google.com/spreadsheets/d/1p6e-QEG_9pDfdDWlwR4kTeEEV8XgFMKkz5UA6cEGzws/edit?usp=sharing"
  }
-  , { name: "Permission for accomodation and food arrangement for guest", uri:""
+  , { name: "Permission for accomodation and food arrangement for guest", url:"https://docs.google.com/spreadsheets/d/1_oay2vvjcEbcosE1Vzg1GT-Ipe3B14bNgJx4yD-wIz8/edit?usp=sharing"
 }
 ]
 export { instEventList, deptEventList, formsList,reportList };
