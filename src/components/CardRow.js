@@ -44,23 +44,12 @@ const CardRow = () => {
     }
   }
 
-  const notify = () => toast("Wow so easy !");
   return (
     <div className="m-1 box">
       <Filter department={selectedDepartment} setDepartment={setSelectedDepartment} />
-      <button onClick={notify}>Notify !</button>
-      
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+
+
+      <ToastContainer />
       {/* <div className="is-flex-direction-row is-flex is-justify-content-space-between px-5">
         <h1 className="is-size-2 is-text has-text-left">MCA</h1>
         <h1 className="button  has-text-right">see more</h1>

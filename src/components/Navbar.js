@@ -7,6 +7,7 @@ import Dropdown from "./miniComponents/Dropdown";
 import Dropdown1 from "./miniComponents/Dropdown1";
 
 import { formsList, reportList } from '../Data/data';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Navbar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -19,7 +20,6 @@ const Navbar = () => {
 
   const handleLogin = async (email, pass) => {
     const data = await loginService.signin();
-    // console.log("Data : ", data.docs);
     const obj = data.docs.map((item) => ({ ...item.data(), id: item.id }));
     console.log(obj[0]);
 
@@ -27,6 +27,15 @@ const Navbar = () => {
       // alert("Login successfull");
       setIsLogin(true);
       closeModal();
+      toast('🦄 Login Successfull', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
     } else {
       // alert("login fail");
       setIsLogin(false);
@@ -35,6 +44,15 @@ const Navbar = () => {
   };
 
   const onLogout = () => {
+    toast.warn(' Logout Successfull', {
+      position: "bottom-center",
+      autoClose: 1005,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
     setIsLogin(false);
     navigate('/')
   }
@@ -42,6 +60,7 @@ const Navbar = () => {
 
   return (
     <div>
+      <ToastContainer />
       <nav
         className="navbar box"
         role="navigation"
