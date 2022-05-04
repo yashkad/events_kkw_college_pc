@@ -107,7 +107,7 @@ const Navbar = () => {
                   padding: "0px",
                   paddingLeft: ".75rem"
                 }}>
-                  <Dropdown1 data={formsList} />
+                  <Dropdown1 title="Essential Documents" data={formsList} />
                 </NavLink>
                 <NavLink to="#" className="navbar-item" style={{
                   padding: "0px",
