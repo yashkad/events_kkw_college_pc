@@ -12,6 +12,8 @@ import {
   listAll,
   uploadBytesResumable,
 } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 //
 
 const Form = () => {
@@ -34,6 +36,10 @@ const Form = () => {
   const [img, setImg] = useState("");
   const [file, setFile] = useState("");
   const acceptFormat = ["image/png", "image/jpeg"];
+
+  //
+  const [imageFirebaseName,setImageFirebaseName] = useState("")
+  const [imgArray,setImgArray] = useState(null)
 
   const user = useContext(EventContext);
 
@@ -66,6 +72,15 @@ const Form = () => {
       uploadedUrl === ""
     ) {
       setMessage({ error: true, msg: "All fields are compulsory" });
+      toast.error('All fields are compulsory', {
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
 
@@ -84,6 +99,7 @@ const Form = () => {
       totalStud,
       date,
       url: uploadedUrl,
+      imageLocation:imageFirebaseName
     };
     setLoading(true);
     try {
@@ -97,12 +113,22 @@ const Form = () => {
     console.log(data);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setLoading(true);
     try {
-      await EventsService.deleteEvent(id);
+      await EventsService.deleteEvent(item.id);
+      await ImageService.deleteImage(item.imageLocation);
       setLoading(false);
       setMessage({ error: false, msg: "Deleted successfully" });
+      toast.error('Deleted successfully', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
     } catch (e) {
       return e;
     }
@@ -123,12 +149,21 @@ const Form = () => {
 
     await EventsService.updateEvent(id, data);
     setMessage({ error: false, msg: "Edited successfully" });
+    toast.warn('Edited successfully', {
+      position: "bottom-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
     setLoading(false);
     resetFormFields();
   };
 
   const handleEdit = (item) => {
-    const { name, department, topic, id, email, date, totalStud, url } = item;
+    const { name, department, topic, id, email, date, totalStud, url,imageLocation } = item;
     setName(name);
     setDepartment(department);
     setTopic(topic);
@@ -137,6 +172,7 @@ const Form = () => {
     setTotalStud(totalStud);
     setImg(url);
     setUploadedUrl(url);
+    setImageFirebaseName(imageLocation)
   };
 
   const resetFormFields = () => {
@@ -151,6 +187,12 @@ const Form = () => {
 
   //   image handlers
   const onChangeHandler = (e) => {
+    // let arr = e.target.files.map(i=>{
+    //   return URL.createObjectURL(i);
+    // })
+    // console.log("Arry " ,arr)
+    // setImgArray([...arr])
+console.log("FILES : ",e.target.files)
     setImg(URL.createObjectURL(e.target.files[0]));
     const files = e.target.files;
     if (acceptFormat.includes(files[0].type)) {
@@ -173,7 +215,7 @@ const Form = () => {
     const storage = getStorage();
     setLoading(true);
     const name = `/${folderName ? folderName : "posts"}/${uuid()}`;
-
+    setImageFirebaseName(name);
     const storageRef = ref(storage, name);
     const uploadTask = uploadBytesResumable(storageRef, file[0]);
     // const [imgUrl, setImgUrl] = useState("");
@@ -195,6 +237,15 @@ const Form = () => {
           setLoading(false);
           setLoadingPercentage(null);
         });
+        toast.success('Image Upload Successfull', {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
       }
     );
   };
@@ -204,6 +255,13 @@ const Form = () => {
       className="main block mt-5 mb-5 container has-text-left container-fluid"
       style={{ maxWidth: 600 }}
     >
+
+      <ToastContainer/>
+      {imgArray && 
+        imgArray.map(i=>{
+          return(<li>HI</li>)
+        })
+      }
       {message?.msg && (
         <article
           className={`message is-${message?.error ? "danger" : "success"}`}
@@ -229,13 +287,13 @@ const Form = () => {
         </progress>
       )}
 
-      {img && (
+      {/* {img && (
         <div className="box block box-color ">
           <figure className="image is-2by1 ">
             <img id="myimg" src={img} className="" alt="Image" />
           </figure>
         </div>
-      )}
+      )} */}
 
       <form onSubmit={handleSubmit}>
         <div className="field">
@@ -255,7 +313,7 @@ const Form = () => {
           <label className="label">Email</label>
           <div className="control">
             <input
-              required
+
               name="from"
               className="input"
               type="email"
@@ -302,7 +360,7 @@ const Form = () => {
           <label className="label">Date</label>
           <div className="control">
             <input
-              required
+
               name="date"
               className="input"
               type="date"
@@ -327,6 +385,18 @@ const Form = () => {
           </div>
         </div>
         {/*  */}
+        {img && (
+          <div className="box block box-color ">
+            <figure className="image is-2by1 ">
+              <img id="myimg" src={img} className="" alt="Image" />
+            </figure>
+          </div>
+        )}
+        {img && (
+          <button type="button" className="button " onClick={handleUpload}>
+            upload Image
+          </button>
+        )}
         <div className="file is-success is-justify-content-center p-5 ">
           <label className="file-label ">
             <input
@@ -335,6 +405,7 @@ const Form = () => {
               accept="image/*"
               name="resume"
               onChange={onChangeHandler}
+              multiple
             />
             <span className="file-cta">
               <span className="file-icon">
@@ -350,11 +421,11 @@ const Form = () => {
           </label>
         </div>
 
-        {img && (
+        {/* {img && (
           <button type="button" className="button m-5" onClick={handleUpload}>
             upload Image
           </button>
-        )}
+        )} */}
         {/*  */}
         <div className="field">
           <p className="control">
@@ -399,7 +470,7 @@ const Form = () => {
                   </div>
                   <div
                     className="button   is-danger is-light is-small"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item)}
                   >
                     Delete
                   </div>

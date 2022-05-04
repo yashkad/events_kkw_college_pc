@@ -101,7 +101,7 @@ const Navbar = () => {
             {isLogin && (
               <>
                 <NavLink to="/about" className="navbar-item">
-                  Form
+                  Expert Talk Entry
                 </NavLink>
                 <NavLink to="#" className="navbar-item" style={{
                   padding: "0px",

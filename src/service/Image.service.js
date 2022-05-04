@@ -6,6 +6,7 @@ import {
   getDownloadURL,
   listAll,
   uploadBytesResumable,
+  deleteObject
 } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 
@@ -56,9 +57,20 @@ class ImageService {
       });
   };
 
-  getImages = () => {};
+  getImages = () => { };
 
-  getImage = () => {};
+  getImage = () => { };
+
+  deleteImage = (location) => {
+    // Create a reference to the file to delete
+    const desertRef = ref(storage, location);
+
+    deleteObject(desertRef).then(() => {
+      // File deleted successfully
+    }).catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+  }
 }
 
 export default new ImageService();

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import eventsService from "../service/events.service";
+import { useLocation } from "react-router-dom";
+
 
 const EventDetails = () => {
+  const location = useLocation();
   const { eventId } = useParams();
   const [data, setData] = useState([]);
 
@@ -19,7 +22,8 @@ const EventDetails = () => {
   };
 
   useEffect(() => {
-    getEvent(eventId);
+    // getEvent(eventId);
+    setData(location.state.item)
   }, []);
 
   return (
@@ -45,7 +49,11 @@ const EventDetails = () => {
             </div>
             <div className="m-5">
               <p className="title">{data.name ? data.name : "hello"}</p>
-              <p className="subtitle">Medium subtitle</p>
+              <p className="subtitle">{data.topic}</p>
+              <h1  className="">Email : {data.email}</h1>
+              <h1  className="">Total Students Enrolled : {data.totalStud}</h1>
+              <h1  className="">Department : {data.department}</h1>
+              <h1  className="">Date : {data.date}</h1>
             </div>
           </div>
         </div>
