@@ -38,11 +38,15 @@ const Form = () => {
   const acceptFormat = ["image/png", "image/jpeg"];
 
   //
-  const [imageFirebaseName,setImageFirebaseName] = useState("")
-  const [imgArray,setImgArray] = useState(null)
+  const [imageFirebaseName, setImageFirebaseName] = useState("")
+  const [imgArray, setImgArray] = useState(null)
 
   const user = useContext(EventContext);
-
+  const [designation, setDesignation] = useState("")
+  const [orgName, setOrgName] = useState("")
+  const [forClass, setForClass] = useState("");
+  const [title, setTitle] = useState("")
+  const [arrangedBy,setArrangedBy] = useState("")
   useEffect(() => {
     getAllEvents();
     console.log("COntext : ", user);
@@ -69,8 +73,14 @@ const Form = () => {
       email === "" ||
       date === "" ||
       totalStud === "" ||
-      uploadedUrl === ""
+      uploadedUrl === "" ||
+      designation === "" ||
+      orgName === "" ||
+      forClass === "" ||
+      title === ""
+      || arrangedBy ===""
     ) {
+      console.log(name,topic,email,totalStud,uploadedUrl)
       setMessage({ error: true, msg: "All fields are compulsory" });
       toast.error('All fields are compulsory', {
         position: "bottom-center",
@@ -99,7 +109,12 @@ const Form = () => {
       totalStud,
       date,
       url: uploadedUrl,
-      imageLocation:imageFirebaseName
+      imageLocation: imageFirebaseName,
+      designation: designation,
+      organization: orgName,
+      forClass: forClass,
+      title: title,
+      arrangedBy: arrangedBy
     };
     setLoading(true);
     try {
@@ -128,7 +143,7 @@ const Form = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        });
+      });
     } catch (e) {
       return e;
     }
@@ -157,13 +172,13 @@ const Form = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      });
+    });
     setLoading(false);
     resetFormFields();
   };
 
   const handleEdit = (item) => {
-    const { name, department, topic, id, email, date, totalStud, url,imageLocation } = item;
+    const { name, department, topic, id, email, date, totalStud, url, imageLocation } = item;
     setName(name);
     setDepartment(department);
     setTopic(topic);
@@ -183,6 +198,11 @@ const Form = () => {
     setDate("");
     setImg(null);
     setTotalStud("");
+    setDesignation("");
+    setOrgName("")
+    setForClass("")
+    setTitle("")
+    setArrangedBy("");
   };
 
   //   image handlers
@@ -192,7 +212,7 @@ const Form = () => {
     // })
     // console.log("Arry " ,arr)
     // setImgArray([...arr])
-console.log("FILES : ",e.target.files)
+    console.log("FILES : ", e.target.files)
     setImg(URL.createObjectURL(e.target.files[0]));
     const files = e.target.files;
     if (acceptFormat.includes(files[0].type)) {
@@ -245,7 +265,7 @@ console.log("FILES : ",e.target.files)
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          });
+        });
       }
     );
   };
@@ -256,10 +276,10 @@ console.log("FILES : ",e.target.files)
       style={{ maxWidth: 600 }}
     >
 
-      <ToastContainer/>
-      {imgArray && 
-        imgArray.map(i=>{
-          return(<li>HI</li>)
+      <ToastContainer />
+      {imgArray &&
+        imgArray.map(i => {
+          return (<li>HI</li>)
         })
       }
       {message?.msg && (
@@ -328,14 +348,53 @@ console.log("FILES : ",e.target.files)
         </div>
 
         <div className="field">
-          <label className="label">Topic</label>
+          <label className="label">Title</label>
+          <div className="control">
+            <input
+              className="input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              placeholder="Enter Title of the Event"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Subject</label>
           <div className="control">
             <input
               className="input"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               type="text"
-              placeholder="Enter Subject name"
+              placeholder="Enter Subject of the lecture"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Designation</label>
+          <div className="control">
+            <input
+              className="input"
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+              type="text"
+              placeholder="Designation of the speaker"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Name of Industry / Organization</label>
+          <div className="control">
+            <input
+              className="input"
+              value={orgName}
+              onChange={(e) => setOrgName(e.target.value)}
+              type="text"
+              placeholder="Enter name of organization / Industry"
             />
           </div>
         </div>
@@ -353,6 +412,19 @@ console.log("FILES : ",e.target.files)
                 ))}
               </select>
             </div>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Class</label>
+          <div className="control">
+            <input
+              className="input"
+              value={forClass}
+              onChange={(e) => setForClass(e.target.value)}
+              type="text"
+              placeholder="Enter the class"
+            />
           </div>
         </div>
 
@@ -381,6 +453,18 @@ console.log("FILES : ",e.target.files)
               onChange={(e) => setTotalStud(e.target.value)}
               type="number"
               placeholder="how many students enrolled?"
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label className="label">Arranged By</label>
+          <div className="control">
+            <input
+              className="input"
+              value={arrangedBy}
+              onChange={(e) => setArrangedBy(e.target.value)}
+              type="text"
+              placeholder="Arranged By"
             />
           </div>
         </div>

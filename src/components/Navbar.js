@@ -9,7 +9,7 @@ import Dropdown1 from "./miniComponents/Dropdown1";
 import { formsList, reportList } from '../Data/data';
 import { ToastContainer, toast } from 'react-toastify';
 
-const Navbar = () => {
+const Navbar = ({currentPage}) => {
   const [isLogin, setIsLogin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const closeModal = () => {
@@ -74,7 +74,7 @@ const Navbar = () => {
               height="28"
             /> */}
             <h1 className="title" onClick={() => navigate("/")}>
-              KKW Events
+              {currentPage || "KKW Events"}
             </h1>
           </div>
 
