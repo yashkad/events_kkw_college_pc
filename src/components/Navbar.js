@@ -100,6 +100,9 @@ const Navbar = ({currentPage}) => {
 
             {isLogin && (
               <>
+              <NavLink to="/expertTalkEntry" className="navbar-item">
+                  Event form TEST
+                </NavLink>
                 <NavLink to="/about" className="navbar-item">
                   Expert Talk Entry
                 </NavLink>

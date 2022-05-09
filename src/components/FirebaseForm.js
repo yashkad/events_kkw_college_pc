@@ -46,7 +46,7 @@ const Form = () => {
   const [orgName, setOrgName] = useState("")
   const [forClass, setForClass] = useState("");
   const [title, setTitle] = useState("")
-  const [arrangedBy,setArrangedBy] = useState("")
+  const [arrangedBy, setArrangedBy] = useState("")
   useEffect(() => {
     getAllEvents();
     console.log("COntext : ", user);
@@ -78,9 +78,9 @@ const Form = () => {
       orgName === "" ||
       forClass === "" ||
       title === ""
-      || arrangedBy ===""
+      || arrangedBy === ""
     ) {
-      console.log(name,topic,email,totalStud,uploadedUrl)
+      console.log(name, topic, email, totalStud, uploadedUrl)
       setMessage({ error: true, msg: "All fields are compulsory" });
       toast.error('All fields are compulsory', {
         position: "bottom-center",
@@ -277,37 +277,38 @@ const Form = () => {
     >
 
       <ToastContainer />
-      {imgArray &&
-        imgArray.map(i => {
-          return (<li>HI</li>)
-        })
-      }
-      {message?.msg && (
-        <article
-          className={`message is-${message?.error ? "danger" : "success"}`}
-        >
-          <div className="message-header">
-            <p>{message?.error ? "oh no " : "successfull"}</p>
-            <button
-              className="delete"
-              aria-label="delete"
-              onClick={() => setMessage("")}
-            ></button>
-          </div>
-          <div className="message-body">{message?.msg}</div>
-        </article>
-      )}
-      {loading && (
-        <progress
-          className="progress is-small is-primary"
-          value={loadingPercentage ? loadingPercentage : null}
-          max="100"
-        >
-          15%
-        </progress>
-      )}
+      <div>
+        {imgArray &&
+          imgArray.map(i => {
+            return (<li>HI</li>)
+          })
+        }
+        {message?.msg && (
+          <article
+            className={`message is-${message?.error ? "danger" : "success"}`}
+          >
+            <div className="message-header">
+              <p>{message?.error ? "oh no " : "successfull"}</p>
+              <button
+                className="delete"
+                aria-label="delete"
+                onClick={() => setMessage("")}
+              ></button>
+            </div>
+            <div className="message-body">{message?.msg}</div>
+          </article>
+        )}
+        {loading && (
+          <progress
+            className="progress is-small is-primary"
+            value={loadingPercentage ? loadingPercentage : null}
+            max="100"
+          >
+            15%
+          </progress>
+        )}
 
-      {/* {img && (
+        {/* {img && (
         <div className="box block box-color ">
           <figure className="image is-2by1 ">
             <img id="myimg" src={img} className="" alt="Image" />
@@ -315,6 +316,8 @@ const Form = () => {
         </div>
       )} */}
 
+      </div>
+      
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label className="label">Guest Name</label>
@@ -520,7 +523,7 @@ const Form = () => {
         </div>
       </form>
 
-      <table className="table mt-5">
+      {/* <table className="table mt-5">
         <thead>
           <tr>
             <th>Name</th>
@@ -563,7 +566,7 @@ const Form = () => {
             );
           })}
         </tbody>
-      </table>
+      </table> */}
       {/* <pre>{JSON.stringify(list, undefined, 1)}</pre> */}
     </div>
   );

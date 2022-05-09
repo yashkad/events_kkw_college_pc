@@ -14,6 +14,7 @@ import EventDetails from "./components/EventDetails";
 import CardRow from "./components/CardRow";
 import UnderConstruction from "./components/UnderConstruction";
 import FirstPage from "./components/FirstPage/FirstPage";
+import ExpertTalkEntry from "./components/ExpertTalk/ExpertTalkEntry";
 
 export const EventContext = createContext();
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/eventPage" element={<CardRow />} />
           <Route path="/eventDetails/:eventId" element={<EventDetails />} />
           <Route path="/404" element={<UnderConstruction />} />
+          <Route path="/expertTalkEntry" element={<ExpertTalkEntry />} />
         </Routes>
         {/* <Footer /> */}
       </div>
