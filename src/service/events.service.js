@@ -9,6 +9,7 @@ import {
 } from "@firebase/firestore";
 import { db } from "../firebase/firebase";
 
+// const yashRef = collection(db, "events_new");
 const yashRef = collection(db, "events");
 
 class EventService {
