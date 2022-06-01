@@ -8,16 +8,21 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 
 import FirebaseForm from "./components/FirebaseForm";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import InviteForm from "./components/InviteForm";
 import EventDetails from "./components/EventDetails";
 import CardRow from "./components/CardRow";
 import UnderConstruction from "./components/UnderConstruction";
+import FirstPage from "./components/FirstPage/FirstPage";
+import ExpertTalkEntry from "./components/ExpertTalk/ExpertTalkEntry";
+import EventTodo from "./components/EventTodo/EventTodo";
 
 export const EventContext = createContext();
 
 function App() {
   const [imgUrl, setImgUrl] = useState("");
+  const [currentPage,setCurrentPage] = useState(null)
+
   const data = {
     imgUrl: imgUrl,
     setImgUrl: (e) => {
@@ -29,14 +34,16 @@ function App() {
   return (
     <EventContext.Provider value={data}>
       <div className="App main">
-        <Navbar />
+        <Navbar currentPage={currentPage} />
         <Routes>
-          <Route path="/" exact element={<Home />} />
+          <Route path="/" exact element={<FirstPage setCurrentPage={setCurrentPage}/>} />
           <Route path="about" element={<FirebaseForm />} />
           <Route path="invite" element={<InviteForm />} />
           <Route path="/eventPage" element={<CardRow />} />
           <Route path="/eventDetails/:eventId" element={<EventDetails />} />
           <Route path="/404" element={<UnderConstruction />} />
+          <Route path="/expertTalkEntry" element={<ExpertTalkEntry />} />
+          {/* <Route path="/expertTalkEntry" element={<EventTodo />} /> */}
         </Routes>
         {/* <Footer /> */}
       </div>

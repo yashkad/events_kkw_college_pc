@@ -5,6 +5,7 @@ import Filter from "./Filter/Filter";
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import EventReport from "./EventReportChart";
 
 const CardRow = () => {
   const [list, setList] = useState([]);
@@ -48,7 +49,7 @@ const CardRow = () => {
     <div className="m-1 box">
       <Filter department={selectedDepartment} setDepartment={setSelectedDepartment} />
 
-
+      <EventReport />    
       <ToastContainer />
       {/* <div className="is-flex-direction-row is-flex is-justify-content-space-between px-5">
         <h1 className="is-size-2 is-text has-text-left">MCA</h1>
@@ -83,6 +84,7 @@ const CardRow = () => {
             15%
           </progress>
         )}
+        <Card item={null} isEmptyCard = {true}/>
         {filterList.length ? (filterList.map((item, id) => {
           return (
             <div

@@ -12,6 +12,8 @@ import {
   listAll,
   uploadBytesResumable,
 } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 //
 
 const Form = () => {
@@ -35,8 +37,16 @@ const Form = () => {
   const [file, setFile] = useState("");
   const acceptFormat = ["image/png", "image/jpeg"];
 
-  const user = useContext(EventContext);
+  //
+  const [imageFirebaseName, setImageFirebaseName] = useState("")
+  const [imgArray, setImgArray] = useState(null)
 
+  const user = useContext(EventContext);
+  const [designation, setDesignation] = useState("")
+  const [orgName, setOrgName] = useState("")
+  const [forClass, setForClass] = useState("");
+  const [title, setTitle] = useState("")
+  const [arrangedBy, setArrangedBy] = useState("")
   useEffect(() => {
     getAllEvents();
     console.log("COntext : ", user);
@@ -63,9 +73,24 @@ const Form = () => {
       email === "" ||
       date === "" ||
       totalStud === "" ||
-      uploadedUrl === ""
+      uploadedUrl === "" ||
+      designation === "" ||
+      orgName === "" ||
+      forClass === "" ||
+      title === ""
+      || arrangedBy === ""
     ) {
+      console.log(name, topic, email, totalStud, uploadedUrl)
       setMessage({ error: true, msg: "All fields are compulsory" });
+      toast.error('All fields are compulsory', {
+        position: "bottom-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
 
@@ -84,6 +109,12 @@ const Form = () => {
       totalStud,
       date,
       url: uploadedUrl,
+      imageLocation: imageFirebaseName,
+      designation: designation,
+      organization: orgName,
+      forClass: forClass,
+      title: title,
+      arrangedBy: arrangedBy
     };
     setLoading(true);
     try {
@@ -97,12 +128,22 @@ const Form = () => {
     console.log(data);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setLoading(true);
     try {
-      await EventsService.deleteEvent(id);
+      await EventsService.deleteEvent(item.id);
+      await ImageService.deleteImage(item.imageLocation);
       setLoading(false);
       setMessage({ error: false, msg: "Deleted successfully" });
+      toast.error('Deleted successfully', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (e) {
       return e;
     }
@@ -123,12 +164,21 @@ const Form = () => {
 
     await EventsService.updateEvent(id, data);
     setMessage({ error: false, msg: "Edited successfully" });
+    toast.warn('Edited successfully', {
+      position: "bottom-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     setLoading(false);
     resetFormFields();
   };
 
   const handleEdit = (item) => {
-    const { name, department, topic, id, email, date, totalStud, url } = item;
+    const { name, department, topic, id, email, date, totalStud, url, imageLocation } = item;
     setName(name);
     setDepartment(department);
     setTopic(topic);
@@ -137,6 +187,7 @@ const Form = () => {
     setTotalStud(totalStud);
     setImg(url);
     setUploadedUrl(url);
+    setImageFirebaseName(imageLocation)
   };
 
   const resetFormFields = () => {
@@ -147,10 +198,21 @@ const Form = () => {
     setDate("");
     setImg(null);
     setTotalStud("");
+    setDesignation("");
+    setOrgName("")
+    setForClass("")
+    setTitle("")
+    setArrangedBy("");
   };
 
   //   image handlers
   const onChangeHandler = (e) => {
+    // let arr = e.target.files.map(i=>{
+    //   return URL.createObjectURL(i);
+    // })
+    // console.log("Arry " ,arr)
+    // setImgArray([...arr])
+    console.log("FILES : ", e.target.files)
     setImg(URL.createObjectURL(e.target.files[0]));
     const files = e.target.files;
     if (acceptFormat.includes(files[0].type)) {
@@ -173,7 +235,7 @@ const Form = () => {
     const storage = getStorage();
     setLoading(true);
     const name = `/${folderName ? folderName : "posts"}/${uuid()}`;
-
+    setImageFirebaseName(name);
     const storageRef = ref(storage, name);
     const uploadTask = uploadBytesResumable(storageRef, file[0]);
     // const [imgUrl, setImgUrl] = useState("");
@@ -195,6 +257,15 @@ const Form = () => {
           setLoading(false);
           setLoadingPercentage(null);
         });
+        toast.success('Image Upload Successfull', {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     );
   };
@@ -204,39 +275,49 @@ const Form = () => {
       className="main block mt-5 mb-5 container has-text-left container-fluid"
       style={{ maxWidth: 600 }}
     >
-      {message?.msg && (
-        <article
-          className={`message is-${message?.error ? "danger" : "success"}`}
-        >
-          <div className="message-header">
-            <p>{message?.error ? "oh no " : "successfull"}</p>
-            <button
-              className="delete"
-              aria-label="delete"
-              onClick={() => setMessage("")}
-            ></button>
-          </div>
-          <div className="message-body">{message?.msg}</div>
-        </article>
-      )}
-      {loading && (
-        <progress
-          className="progress is-small is-primary"
-          value={loadingPercentage ? loadingPercentage : null}
-          max="100"
-        >
-          15%
-        </progress>
-      )}
 
-      {img && (
+      <ToastContainer />
+      <div>
+        {imgArray &&
+          imgArray.map(i => {
+            return (<li>HI</li>)
+          })
+        }
+        {message?.msg && (
+          <article
+            className={`message is-${message?.error ? "danger" : "success"}`}
+          >
+            <div className="message-header">
+              <p>{message?.error ? "oh no " : "successfull"}</p>
+              <button
+                className="delete"
+                aria-label="delete"
+                onClick={() => setMessage("")}
+              ></button>
+            </div>
+            <div className="message-body">{message?.msg}</div>
+          </article>
+        )}
+        {loading && (
+          <progress
+            className="progress is-small is-primary"
+            value={loadingPercentage ? loadingPercentage : null}
+            max="100"
+          >
+            15%
+          </progress>
+        )}
+
+        {/* {img && (
         <div className="box block box-color ">
           <figure className="image is-2by1 ">
             <img id="myimg" src={img} className="" alt="Image" />
           </figure>
         </div>
-      )}
+      )} */}
 
+      </div>
+      
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label className="label">Guest Name</label>
@@ -255,7 +336,7 @@ const Form = () => {
           <label className="label">Email</label>
           <div className="control">
             <input
-              required
+
               name="from"
               className="input"
               type="email"
@@ -270,14 +351,53 @@ const Form = () => {
         </div>
 
         <div className="field">
-          <label className="label">Topic</label>
+          <label className="label">Title</label>
+          <div className="control">
+            <input
+              className="input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              placeholder="Enter Title of the Event"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Subject</label>
           <div className="control">
             <input
               className="input"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               type="text"
-              placeholder="Enter Subject name"
+              placeholder="Enter Subject of the lecture"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Designation</label>
+          <div className="control">
+            <input
+              className="input"
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+              type="text"
+              placeholder="Designation of the speaker"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Name of Industry / Organization</label>
+          <div className="control">
+            <input
+              className="input"
+              value={orgName}
+              onChange={(e) => setOrgName(e.target.value)}
+              type="text"
+              placeholder="Enter name of organization / Industry"
             />
           </div>
         </div>
@@ -299,10 +419,23 @@ const Form = () => {
         </div>
 
         <div className="field">
+          <label className="label">Class</label>
+          <div className="control">
+            <input
+              className="input"
+              value={forClass}
+              onChange={(e) => setForClass(e.target.value)}
+              type="text"
+              placeholder="Enter the class"
+            />
+          </div>
+        </div>
+
+        <div className="field">
           <label className="label">Date</label>
           <div className="control">
             <input
-              required
+
               name="date"
               className="input"
               type="date"
@@ -326,7 +459,31 @@ const Form = () => {
             />
           </div>
         </div>
+        <div className="field">
+          <label className="label">Arranged By</label>
+          <div className="control">
+            <input
+              className="input"
+              value={arrangedBy}
+              onChange={(e) => setArrangedBy(e.target.value)}
+              type="text"
+              placeholder="Arranged By"
+            />
+          </div>
+        </div>
         {/*  */}
+        {img && (
+          <div className="box block box-color ">
+            <figure className="image is-2by1 ">
+              <img id="myimg" src={img} className="" alt="Image" />
+            </figure>
+          </div>
+        )}
+        {img && (
+          <button type="button" className="button " onClick={handleUpload}>
+            upload Image
+          </button>
+        )}
         <div className="file is-success is-justify-content-center p-5 ">
           <label className="file-label ">
             <input
@@ -335,6 +492,7 @@ const Form = () => {
               accept="image/*"
               name="resume"
               onChange={onChangeHandler}
+              multiple
             />
             <span className="file-cta">
               <span className="file-icon">
@@ -350,11 +508,11 @@ const Form = () => {
           </label>
         </div>
 
-        {img && (
+        {/* {img && (
           <button type="button" className="button m-5" onClick={handleUpload}>
             upload Image
           </button>
-        )}
+        )} */}
         {/*  */}
         <div className="field">
           <p className="control">
@@ -365,7 +523,7 @@ const Form = () => {
         </div>
       </form>
 
-      <table className="table mt-5">
+      {/* <table className="table mt-5">
         <thead>
           <tr>
             <th>Name</th>
@@ -399,7 +557,7 @@ const Form = () => {
                   </div>
                   <div
                     className="button   is-danger is-light is-small"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item)}
                   >
                     Delete
                   </div>
@@ -408,7 +566,7 @@ const Form = () => {
             );
           })}
         </tbody>
-      </table>
+      </table> */}
       {/* <pre>{JSON.stringify(list, undefined, 1)}</pre> */}
     </div>
   );

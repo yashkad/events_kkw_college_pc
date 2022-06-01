@@ -9,7 +9,7 @@ import Dropdown1 from "./miniComponents/Dropdown1";
 import { formsList, reportList } from '../Data/data';
 import { ToastContainer, toast } from 'react-toastify';
 
-const Navbar = () => {
+const Navbar = ({currentPage}) => {
   const [isLogin, setIsLogin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const closeModal = () => {
@@ -74,7 +74,7 @@ const Navbar = () => {
               height="28"
             /> */}
             <h1 className="title" onClick={() => navigate("/")}>
-              KKW Events
+              {currentPage || "KKW Events"}
             </h1>
           </div>
 
@@ -100,14 +100,17 @@ const Navbar = () => {
 
             {isLogin && (
               <>
+              <NavLink to="/expertTalkEntry" className="navbar-item">
+                  Event form TEST
+                </NavLink>
                 <NavLink to="/about" className="navbar-item">
-                  Form
+                  Expert Talk Entry
                 </NavLink>
                 <NavLink to="#" className="navbar-item" style={{
                   padding: "0px",
                   paddingLeft: ".75rem"
                 }}>
-                  <Dropdown1 data={formsList} />
+                  <Dropdown1 title="Essential Documents" data={formsList} />
                 </NavLink>
                 <NavLink to="#" className="navbar-item" style={{
                   padding: "0px",

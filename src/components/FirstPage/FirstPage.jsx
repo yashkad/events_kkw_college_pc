@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deptEventList, instEventList } from "../../Data/data";
 import Navbar from "../Navbar";
 import styles from "./FirstPage.module.css";
 
-const FirstPage = () => {
+const FirstPage = ({ setCurrentPage }) => {
   const [showInstList, setShowInstList] = useState(false);
   const [showDeptList, setShowDeptList] = useState(false);
 
+  
+  useEffect(()=>{
+    setCurrentPage("")
+  },[])
   const handleShow = (index) => {
     // alert(index);
     if (index == 1) {
@@ -44,8 +48,8 @@ const FirstPage = () => {
             {"Department Level Event"}
           </h3>
         </div>
-        {showInstList && <InstituteList handleShow={handleShow} />}
-        {showDeptList && <DepartmentList handleShow={handleShow} />}
+        {showInstList && <InstituteList handleShow={handleShow} setPage={setCurrentPage}/>}
+        {showDeptList && <DepartmentList handleShow={handleShow} setPage={setCurrentPage}/>}
       </div>
     </div>
   );
@@ -53,7 +57,7 @@ const FirstPage = () => {
 
 export default FirstPage;
 
-const InstituteList = ({ handleShow }) => {
+const InstituteList = ({ handleShow ,setPage}) => {
   return (
     <div className={[styles.instList]}>
       <div class="dropdown">
@@ -62,6 +66,7 @@ const InstituteList = ({ handleShow }) => {
             {instEventList.map((item, index) => {
               return (
                 <Link
+                  onClick={() => setPage(item)}
                   to={index == 1 ? "/eventPage" : "/404"}
                   className="dropdown-item"
                 >
@@ -83,7 +88,7 @@ const InstituteList = ({ handleShow }) => {
   );
 };
 
-const DepartmentList = ({ handleShow }) => (
+const DepartmentList = ({ handleShow ,setPage  }) => (
   <div className={[styles.instList]}>
     <div className="dropdown">
       <div id="dropdown-menu3" role="menu">
@@ -91,6 +96,7 @@ const DepartmentList = ({ handleShow }) => (
           {deptEventList["technical"].map((item, index) => {
             return (
               <Link
+              onClick={() => setPage(item)}
                 to={index == 0 ? "/eventPage" : "/404"}
                 className="dropdown-item"
               >
