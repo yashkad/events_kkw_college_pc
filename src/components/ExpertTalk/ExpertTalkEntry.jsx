@@ -44,15 +44,27 @@ function ExpertTalkEntry() {
 
     const [confirmLetter, setConfirmLetter] = useState(null)
     const [imgArr, setImgArr] = useState(null)
+    const [img, setImg] = useState(null)
+    // const [uploadUrl, setUploadedUrl] = useState();
+    const [fireImgUrl, setFireImgUrl] = useState(null)
+    const [fireDocUrl, setFireDocUrl] = useState(null)
 
-    const handleConfirmLetterCange = (e) => {
+    const [canSubmitForm, setCanSubmitForm] = useState(false)
+    const [canUpload, setCanUpload] = useState(true)
+
+    const handleConfirmLetterCange = async (e) => {
         console.log(e.target.files)
         setConfirmLetter(e.target.files[0])
+        // let d = await uploadToStorage(e.target.files[0])
+        // console.log("DDD",d)
+
     }
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         console.log(e.target.files)
         setImgArr((p) => e.target.files)
+        // setImg(URL.createObjectURL(e.target.files[0]));
+        setImg(e.target.files[0])
     }
 
 
@@ -75,12 +87,18 @@ function ExpertTalkEntry() {
             alert("Fields Emtpy")
             return;
         }
+        // const imageLocation = await uploadToStorage(img);
+        // // const documentUplaodLocatoin = await uploadToStorage(confirmLetter)
+        // console.log("image url url :  ",imageLocation)
+
         const data = {
             orgDept, date, time, venue, forClass, title, subject,
             co, po, speakerName, designation, orgName, country, speakerState, city,
-            mobile, email, specialization, beneficiary
+            mobile, email, specialization, beneficiary, imageLocation: fireImgUrl, confirmLetter: fireDocUrl
         }
+
         try {
+
             let a = await EventsService.addEvent(data);
             console.log(a)
             alert("Inside submit")
@@ -94,9 +112,10 @@ function ExpertTalkEntry() {
         console.log(data);
     }
 
-    const uploadToStorage = async (file) => {
+    const uploadToStorage = async (file, setFile) => {
         const storage = getStorage();
-        const name = `posts/${uuid()}`;
+        // const name = `posts/${uuid()}`;
+        const name = `images/${uuid()}`;
         const storageRef = ref(storage, name);
         const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(
@@ -110,26 +129,53 @@ function ExpertTalkEntry() {
             (e) => {
                 console.log(e);
             },
-            () => {
+            () =>
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                     console.log(url);
                     // setUploadedUrl(url);
                     // setLoading(false);
                     // setLoadingPercentage(null);
-                });
-                toast.success('Image Upload Successfull', {
-                    position: "bottom-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }
+                    setFile(url)
+                    return url;
+                })
+            // () => {
+            //     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            //         console.log(url);
+            //         // setUploadedUrl(url);
+            //         // setLoading(false);
+            //         // setLoadingPercentage(null);
+            //         return url;
+            //     });
+            //     toast.success('Image Upload Successfull', {
+            //         position: "bottom-center",
+            //         autoClose: 5000,
+            //         hideProgressBar: false,
+            //         closeOnClick: true,
+            //         pauseOnHover: true,
+            //         draggable: true,
+            //         progress: undefined,
+            //     });
+            // }
         );
+        return 1;
 
+    }
 
+    const onUploadClicked = async (e) => {
+        e.preventDefault()
+        const a = await uploadToStorage(img, setFireImgUrl);
+        const b = await uploadToStorage(confirmLetter, setFireDocUrl);
+
+        if (a == 1 && b == 1) {
+            alert("Uploaded Successfull")
+            setCanSubmitForm(true);
+            setCanUpload(false)
+            // await handleSubmit(e)
+
+        }
+
+        console.log("A", a)
+        console.log("B", b)
     }
 
     const coData = ["CO-1", "CO-2", "CO-3", "CO-4", "CO-5", "CO-6"];
@@ -463,7 +509,7 @@ function ExpertTalkEntry() {
                     </div>
 
                     <label className="label pt-4">{"Confirmation status by expert"}</label>
-                    <div class={`file is-left ${imgArr ? 'is-success' : "is-warning"}`}>
+                    <div class={`file is-left ${img ? 'is-success' : "is-warning"}`}>
                         <label class="file-label">
                             <input
                                 required
@@ -482,15 +528,18 @@ function ExpertTalkEntry() {
                                 </span>
                             </span>
                             <span class="file-name">
-                                {imgArr ? "Images Selected" : "Choose Image"}
+                                {img ? "Images Selected" : "Choose Image"}
                             </span>
                         </label>
                     </div>
+                    <label className="label pt-4">{"Confirmation status by expert"}</label>
 
 
                 </div>
-
-                <button class="button is-success is-medium m-4" >Submit Form</button>
+                {img && confirmLetter &&
+                    <button onClick={onUploadClicked} className={`button is-success is-medium m-4 ${canUpload ? "" : "is-static"}`} >Upload files</button>
+                }
+                <button type='submit' className={`button is-success is-medium m-4 ${canSubmitForm ? "" : "is-static"}`} >Submit Form</button>
             </form>
             <button type="reset" onClick={() => { myFormRef.current.reset() }}>RESET</button>
         </div>

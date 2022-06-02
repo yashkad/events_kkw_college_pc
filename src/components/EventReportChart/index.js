@@ -17,18 +17,19 @@ const EventReport = () => {
         console.log("ddd", result)
         setEventData(result)
         console.log(getHeaders())
-        // printReport()
+        printReport()
         // console.log("asdfsadf", getObjValues())
         console.log(Object.keys(eventData[0]))
     };
 
     const getHeaders = () => {
-        const headers =  Object.keys(eventData[0]).filter((item) => {
-            return item.organization,
-                   item.name,
-                   item.totalStud,
-                   item.email;
-        })
+        // const headers =  Object.keys(eventData[0]).filter((item) => {
+        //     return item.organization,
+        //            item.name,
+        //            item.totalStud,
+        //            item.email;
+        // })
+        const headers = Object.keys(eventData[0])
         return headers;
     }
 
@@ -56,13 +57,7 @@ const EventReport = () => {
     return (
         <div>
             <button className='btn ' onClick={getAllEvents}>Get Report</button>
-            {
-                eventData.map(item => {
-                    return (
-                        <li>{item.arrangedBy}</li>
-                    )
-                })
-            }
+
             <table id="my-table">
 
             </table>
